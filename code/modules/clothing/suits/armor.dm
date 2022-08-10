@@ -822,3 +822,12 @@ obj/item/clothing/suit/armor
   armor = list(melee = 60, bullet = 60, laser = 60, energy = 70, bomb = 40, bio = 100, rad = 20)
   cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET| ARMS | HANDS
   min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
+
+/obj/item/clothing/suit/armor/bloodpact
+	name = "Blood pact Armor - Medium"
+	desc = "Blood bathed armor of the Blood Pact. It flowed all over this armor for the blood god!"
+	icon_state = "bloodpactmed"
+	item_state = "bloodpactmed"
+	armor = list(melee = 50, bullet = 45, laser = 35, energy = 20, bomb = 30, bio = 10, rad = 20) // 15 more melee than cadian med
+	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
+	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
