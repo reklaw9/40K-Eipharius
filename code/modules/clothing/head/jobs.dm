@@ -501,3 +501,19 @@
 	icon_state = "sister"
 	item_state = "sister"
 	armor = list(melee = 65, bullet = 65, laser = 55, energy = 40, bomb = 40, bio = 0, rad = 40)
+
+// Blood Pact
+
+/obj/item/clothing/head/helmet/bloodpact
+	name = "Khornate combat helmet"
+	desc = "Armored helmet of the blood god's chosen. KILL, MAIM, BURN!"
+	icon_state = "bloodpact1"
+	item_state = "bloodpact1"
+	armor = list(melee = 38, bullet = 44, laser = 34, energy = 35, bomb = 20, bio = 50, rad = 50) //enforcer helmet stats
+
+/obj/item/clothing/head/helmet/bloodpact/berzerker
+	name = "Berzerker combat helmet"
+	desc = "Well worn Astartes helmet of a Khornate Berzerker. Adapted to be worn by human filth. SKULLS!"
+	icon_state = "KBpower2"
+	item_state = "KBpower2"
+	armor = list(melee = 38, bullet = 44, laser = 34, energy = 35, bomb = 20, bio = 50, rad = 50)
