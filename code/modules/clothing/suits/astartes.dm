@@ -43,6 +43,13 @@
 	icon_state = "ultrasuit"
 	item_state = "ultrasuit"
 
+/obj/item/clothing/suit/armor/astartes/1k
+	name = "Rubric Marine Armor"
+	desc = "The warp tainted armor of one of Magnus' children. Spooky (we know the sprite is bugged)"
+	icon_state = "1ksuit"
+	item_state = "1ksuit"
+
+
 // SPESS MUUHREEN SIRGENT
 
 /obj/item/clothing/suit/armor/astartes/sergeant/ravenguard

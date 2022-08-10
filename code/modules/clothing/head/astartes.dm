@@ -44,6 +44,13 @@
 	item_state = "ultrahelm"
 	flags_inv = HIDEMASK|HIDEEYES|HIDEFACE|HIDEEARS
 
+obj/item/clothing/head/helmet/astartes/1k
+	name = "Rubric Marine Helmet"
+	desc = "The ashy helmet of one of Magnus' children. Spooky (we know the sprite is bugged)"
+	icon_state = "1khelm"
+	item_state = "1khelm"
+	flags_inv = HIDEMASK|HIDEEYES|HIDEFACE|HIDEEARS
+
 /obj/item/clothing/head/helmet/astartes/sergeant
 	name = "Astartes Mark VII Helmet"
 	desc = "The daunting helmet of the Emperor's chosen, This one is worn by a sergeant."
