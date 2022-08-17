@@ -77,29 +77,103 @@
 	if(src.mind)
 		src.mind.assigned_role = "syndicate"
 
-/mob/living/carbon/human/skitarii/proc/giveskitstats()
-	set name = "Run startup diagnostics"
-	set category = "Skitarii"
-	set desc = "Gives Skitarii stats."
+/mob/living/carbon/human/skitarii/proc/skitariiclasses()
+	set name = "Remember your modifications"
+	set category = "Mechanicus"
+	set desc = "Alright lad, choose one of these."
 
 	if(src.stat == DEAD)
-		to_chat(src, "<span class='notice'>You can't do this when dead.</span>")
+		to_chat(src, "<span class='notice'>WHY ARE YOU DEAD IF YOU HAVENT EVEN SET YOUR FUCKING SKILLS?!</span>")
 		return
 
-	visible_message("[name] whizzes and beeps as they run startup diagnostics. All systems green.")
-	playsound(src, 'sound/effects/startup.ogg', 80, 1, 1)
-	src.add_stats(rand(18,22),rand(18,22),rand(18,22),14) //gives stats str, dext, end, int
-	src.add_skills(rand(9,11),rand(9,11),rand(5,7),rand(6,8),rand(3,6)) //melee, ranged, med, eng, surgery
-	src.set_trait(new/datum/trait/death_tolerant())
-	src.update_eyes() //should fix grey vision
-	src.warfare_language_shit(LANGUAGE_MECHANICUS) //secondary language
-	src.verbs -= /mob/living/carbon/human/skitarii/proc/giveskitstats //removes verb at the end so they can't spam it for whatever reason
-	client?.color = null
+	src.verbs -= /mob/living/carbon/human/skitarii/proc/skitariiclasses
 
-	var/obj/item/card/id/dog_tag/skitarii/W = new
+	var/castes = input("Select a functionality","Functionality Selection") as null|anything in list("Fire Warrior", "Water Caste Merchant", "Earth Caste Mechanic", "Kroot Hunter")
+	switch(castes)
+		if("Skitarii Ranger")
+			equip_to_slot_or_del(new /obj/item/clothing/under/rank/skitarii, slot_wear_suit)
+			equip_to_slot_or_del(new /obj/item/clothing/suit/storage/hooded/skitarii, slot_head)
+			equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots/skitshoes, slot_shoes)
+			equip_to_slot_or_del(new /obj/item/gun/energy/pulse/pulserifle, slot_r_hand)
+			equip_to_slot_or_del(new /obj/item/clothing/gloves/thick/swat/combat/warfare, slot_gloves)
+			equip_to_slot_or_del(new /obj/item/cell/pulserifle, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/cell/pulserifle, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/gun/energy/pulse/pulsepistol, slot_in_backpack)
 
-	W.icon_state = "tagred"
-	W.assignment = "Skitarii"
-	W.registered_name = real_name
-	W.update_label()
-	equip_to_slot_or_del(W, slot_wear_id)
+
+			visible_message("[name] finally updates their software after a long wait.")
+			src.add_stats(rand(10,12),rand(14,18),rand(12,15),10) //gives stats str, end, int, dex
+			src.add_skills(rand(4,9),rand(8,13),rand(0,3),0,0) //skills such as melee, ranged, med, eng and surg
+			src.update_eyes() //should fix grey vision
+			src.warfare_language_shit(TAU) //secondary language
+			src.name = "Shas [name]"
+			src.real_name = "Shas [real_name]"
+			client?.color = null
+			src.verbs -= /mob/living/carbon/human/tau/proc/tauclasses //removes verb at the end so they can't spam it for whatever reason
+
+
+
+			var/obj/item/card/id/ring/tau/W = new
+
+			W.icon_state = "tau"
+			W.assignment = "Fire Warrior"
+			W.registered_name = real_name
+			W.update_label()
+			equip_to_slot_or_del(W, slot_wear_id)
+
+		if("Water Caste Merchant")
+			equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots, slot_shoes)
+			equip_to_slot_or_del(new /obj/item/gun/energy/pulse/pulsepistol, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/cell/pulserifle, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/stack/thrones/twenty, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/stack/thrones2/twenty, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/stack/thrones3/twenty, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/clothing/head/tautrader, slot_head)
+			equip_to_slot_or_del(new /obj/item/clothing/suit/watercaste, slot_wear_suit)
+
+			visible_message("[name] finally updates their software after a long wait.")
+			src.add_stats(rand(6,8),rand(10,12),rand(12,13),15) //gives stats str, end, int, dex
+			src.add_skills(rand(3,6),rand(3,6),rand(0,3),3,3) //skills such as melee, ranged, med, eng and surg
+			src.update_eyes() //should fix grey vision
+			src.warfare_language_shit(TAU) //secondary language
+			src.name = "Por [name]"
+			src.real_name = "Por [real_name]"
+			client?.color = null
+			src.verbs -= /mob/living/carbon/human/tau/proc/tauclasses //removes verb at the end so they can't spam it for whatever reason
+
+
+
+			var/obj/item/card/id/ring/tau/W = new
+
+			W.icon_state = "tau"
+			W.assignment = "Water Caste Merchant"
+			W.registered_name = real_name
+			W.update_label()
+			equip_to_slot_or_del(W, slot_wear_id)
+
+		if("Earth Caste Mechanic")
+			equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots, slot_shoes)
+			equip_to_slot_or_del(new /obj/item/gun/energy/pulse/pulsepistol, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/clothing/suit/earthcaste, slot_wear_suit)
+			equip_to_slot_or_del(new /obj/item/storage/belt/utility/full, slot_in_backpack)
+			equip_to_slot_or_del(new /obj/item/clothing/glasses/welding/superior, slot_glasses)
+
+			visible_message("[name] finally updates their software after a long wait.")
+			src.add_stats(rand(7,9),rand(11,13),rand(13,16),12) //gives stats str, end, int, dex
+			src.add_skills(rand(3,6),rand(3,6),rand(5,8),6,6) //skills such as melee, ranged, med, eng and surg
+			src.update_eyes() //should fix grey vision
+			src.warfare_language_shit(TAU) //secondary language
+			src.name = "Fio'La [name]"
+			src.real_name = "Fio'La [real_name]"
+			client?.color = null
+			src.verbs -= /mob/living/carbon/human/tau/proc/tauclasses //removes verb at the end so they can't spam it for whatever reason
+
+
+
+			var/obj/item/card/id/ring/tau/W = new
+
+			W.icon_state = "tau"
+			W.assignment = "Earth Caste Mechanic"
+			W.registered_name = real_name
+			W.update_label()
+			equip_to_slot_or_del(W, slot_wear_id)
