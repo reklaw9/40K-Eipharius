@@ -600,7 +600,7 @@
 /obj/item/projectile/bullet/rifle/galvanic/fire/on_hit(var/atom/target, var/blocked = 0)
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
-		if(!istype(H.wear_suit, /obj/item/clothing/suit/fire))
+		if(!istype(H.wear_suit, /obj/item/clothing/suit/fire)) //i don't think this is lore accurate, but lets keep it, considering its only one armor and its UGLY AF
 			H.adjust_fire_stacks(20)
 			H.IgniteMob()
 		new /obj/flamer_fire(H.loc, 12, 10, "red", 1)
@@ -670,7 +670,7 @@
 	damage_type = BURN
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
-		if(!istype(H.wear_suit, /obj/item/clothing/suit/armor/seolsuit))
+		if(!istype(H.wear_suit, /obj/item/clothing/suit/armor/seolsuit)) //only ADV armor.
 			H.adjust_fire_stacks(60)
 			H.IgniteMob()
 		new /obj/flamer_fire(H.loc, 15, 14, "red", 1)
