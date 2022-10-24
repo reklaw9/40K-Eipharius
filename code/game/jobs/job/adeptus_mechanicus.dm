@@ -47,7 +47,6 @@
 
 
 
-
 /datum/job/engineer
 	title = "Tech Priest Enginseer"
 	department = "Engineering"
@@ -97,7 +96,7 @@
 	social_class = SOCIAL_CLASS_MED
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "You obey the Biologis and Explorator, as well as the Tech Priests."
+	supervisors = "You obey the magi, as well as the more senior Tech Priests."
 	selection_color = "#FF3A3A"
 	economic_modifier = 5
 	minimal_player_age = 7
@@ -106,7 +105,7 @@
 	latejoin_at_spawnpoints = TRUE
 	access = list(access_mechanicus, access_village, access_guard_common, access_medical)
 	minimal_access = list(access_mechanicus, access_village, access_medical)
-	outfit_type = /decl/hierarchy/outfit/job/engineering/engineer
+	outfit_type = /decl/hierarchy/outfit/job/engineering/menial
 	auto_rifle_skill = 6
 	semi_rifle_skill = 6
 	sniper_skill = 6
@@ -124,8 +123,9 @@
 		H.add_skills(rand(4,6),rand(3,6),rand(4,5),rand(6,8),rand(4,6)) //melee, ranged, med, eng, surgery
 		H.warfare_language_shit(LANGUAGE_MECHANICUS)
 		H.warfare_faction = IMPERIUM
-		H.bladder = -INFINITY
-		H.adjustStaminaLoss(-INFINITY) // they aren't cyborg'd enough to not need to drink. The flesh is weak.
+		H.bladder = -INFINITY //no pissin
+		H.bowels = -INFINITY //no shittin
+		H.adjustStaminaLoss(-INFINITY)
 		to_chat(H, "<span class='notice'><b><font size=3>You are a Tech-Menial, a ever grateful servant of the Omnissiah, you have been blessed with the privilege of serving upon the Soul of Reason and the Tech-Priests aboard. You are inexperienced and learning. Ensure to learn much. Perhaps you will be promoted, if your efforts are high.</font></b></span>")
 
 // Biologis
@@ -226,7 +226,7 @@
 		var/current_name = H.real_name
 		..()
 		H.fully_replace_character_name("Explorator [current_name]")
-		H.set_trait(new/datum/trait/death_tolerant()) //They literally open up dead bodies of xenos and humans alike, why would they be disgusted of organs and blood?
+		H.set_trait(new/datum/trait/death_tolerant()) //the search of knowledge is just too big to give a shit about bodies.
 		H.add_stats(rand(15,18), rand(15,18), rand(18,20), rand(20,30)) //just as modified as the magos, if not more.
 		H.add_skills(rand(8,11),rand(7,9),rand(8,10),rand(9,10),rand(8,10)) //melee, ranged, med, eng, surgery
 		H.warfare_language_shit(LANGUAGE_MECHANICUS)
@@ -241,7 +241,7 @@
 		to_chat(H, "<span class='notice'><b><font size=3>You are a Magos Explorator, your primary duty is to explore the planet and locate relics and research items. You have equal power alongside the Biologis. Ensure the Menials and Techpriests are properly trained in your craft.</font></b></span>")
 
 
-//Skitarii
+//Skitarii ranger
 /decl/hierarchy/outfit/job/skitarii
 	uniform = /obj/item/clothing/under/rank/skitarii
 	suit = /obj/item/clothing/suit/storage/hooded/skitarii
