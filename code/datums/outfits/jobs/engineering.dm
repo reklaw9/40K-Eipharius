@@ -49,6 +49,30 @@
 		/obj/item/stack/thrones2 = 1,
 		/obj/item/stack/thrones3/five = 1,
 )
+// tech menial
+/decl/hierarchy/outfit/job/engineering/menial
+	name = OUTFIT_JOB_NAME("Tech Menial")
+	head = /obj/item/clothing/head/hardhat/techpriest
+//	mask = /obj/item/clothing/mask/gas/techpriest //not as modified as the techpriest
+//	glasses = /obj/item/clothing/glasses/science/tech //believe me lads, hes not that modified yet.
+	l_ear = /obj/item/device/radio/headset/headset_eng
+	neck = /obj/item/reagent_containers/food/drinks/canteen
+	uniform = /obj/item/clothing/under/rank/engineer
+	suit = /obj/item/clothing/suit/storage/hazardvest/magos/techpriest
+	gloves = /obj/item/clothing/gloves/thick/techpriest
+	belt = /obj/item/storage/belt/utility/full
+	id_type = /obj/item/card/id/engineering
+	pda_type = null
+	pda_slot = null
+	back = /obj/item/storage/backpack/satchel/warfare/techpriest
+	backpack_contents = list(
+		/obj/item/reagent_containers/food/snacks/warfare/rat = 1,
+		/obj/item/stack/thrones = 1,
+		/obj/item/stack/thrones2 = 1,
+		/obj/item/stack/thrones3/five = 1,
+)
+
+
 
 /decl/hierarchy/outfit/job/engineering/engineer/void
 	name = OUTFIT_JOB_NAME("Engineer - Voidsuit")
