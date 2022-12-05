@@ -218,9 +218,17 @@ default behaviour is:
 	if(stat == DEAD)
 		return
 	else
-		death()
+		var/response
+		if(config.respawn_delay)
+			response = alert(src, "Are you -sure- you want to die?\n(You are alive. If you die, you won't be able to play this round for another [config.respawn_delay] minute\s! You can't change your mind so choose wisely!)", "Are you sure you want to ghost?", "Die", "Stay in body")
+		else
+			response = alert(src, "Are you -sure- you want to die?\n(You are alive. If you die, you won't be able to come back! You can't change your mind so choose wisely!)", "Are you sure you want to ghost?", "Ghost", "Stay in body")
+		if(response != "Die")
+			return
+		death()	
 		to_chat(src, "<span class='notice'>You have given up on life and succumbed to the warp.</span>")
-
+		
+		
 /mob/living/proc/updatehealth()
 	if(status_flags & GODMODE)
 		health = 100
