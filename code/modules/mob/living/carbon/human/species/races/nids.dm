@@ -1,4 +1,5 @@
-/datum/species/xenos/tyranids
+//Normal Genestealer
+/datum/species/xenos/tyranid/genestealer
 	name = SPECIES_TYRANID
 	name_plural = "Tyranids"
 	name_language = null // Use the first-name last-name generator rather than a language scrambler
@@ -7,61 +8,42 @@
 	damage_mask = 'icons/mob/human_races/masks/dam_mask_human.dmi'
 	blood_mask = 'icons/mob/human_races/masks/blood_human.dmi'
 	language = LANGUAGE_TYRANID
-	min_age = 50
-	max_age = 800
-	gluttonous = GLUT_ITEM_NORMAL
-	total_health = 250
-	mob_size = MOB_MEDIUM
+	min_age = 1
+	max_age = 300 //this fucker be old, but not too old, 'bout 6 generations worth of age.
+	total_health = 400 //insanely high brain HP
+	mob_size = MOB_LARGE //fat fuck
 	strength = STR_VHIGH
 	teeth_type = /obj/item/stack/teeth/human //til I get cool nid teeth
-	sexybits_location = BP_GROIN
-	var/pain_power = 80
+	sexybits_location = BP_HEAD
+//	var/pain_power = 80 //useless verb for safekeeping, REMOVE NOPAIN if you want this to work
 	inherent_verbs = list(
 	/mob/living/carbon/human/genestealer/verb/convert,
 	/mob/living/carbon/human/genestealer/proc/talon,
 	/mob/living/carbon/human/genestealer/proc/makepool,
-	/mob/living/carbon/human/genestealer/proc/corrosive_acid,
 	/mob/living/carbon/human/genestealer/proc/gsheal,
 	/mob/living/carbon/human/genestealer/proc/givestealerstats,
-
 	 )
-	slowdown = -0.5
+	slowdown = -1
+	//genestealer unarmed attacks at end of file
 	unarmed_types = list(
 		/datum/unarmed_attack/rendingclaws,
-		/datum/unarmed_attack/rendingclaws,
 		)
-
-	has_fine_manipulation = 0
-	siemens_coefficient = 0
-	gluttonous = GLUT_ANYTHING
-	stomach_capacity = MOB_MEDIUM
-	darksight = 20
-
-	brute_mod = 0.82 // Hardened carapace.
-	burn_mod = 0.81 // Hardened carapace.
-
-	species_flags = SPECIES_FLAG_NO_SCAN | SPECIES_FLAG_NO_SLIP | SPECIES_FLAG_NO_POISON | SPECIES_FLAG_NO_EMBED | SPECIES_FLAG_NO_PAIN
-	appearance_flags = HAS_EYE_COLOR | HAS_SKIN_COLOR
-
-	blood_color = "#05ee05"
-
+	has_fine_manipulation = 0 //can genestealers use weaponry, tools, medicine or guns? correct answer is yes, but DON'T give them that yet.
+//	siemens_coefficient = 0 //first gen mfers be hackin everythin, no worries bro no worries
+//	darksight = 20 //giving them night vision
+	brute_mod = 0.7 // Hardened carapace.
+	burn_mod = 2 // Hardened chitin carapace, easy to burn but insanely resistant to brute.
+	species_flags = SPECIES_FLAG_NO_SLIP | SPECIES_FLAG_NO_EMBED | SPECIES_FLAG_NO_PAIN
+//	appearance_flags = HAS_EYE_COLOR | HAS_SKIN_COLOR
+	blood_color = "#8c0760" //purple ichor or so
 	gibbed_anim = "gibbed-a"
 	dusted_anim = "dust-a"
-	death_message = "lets out a waning guttural screech, green blood bubbling from its maw."
-	death_sound = 'sound/voice/hiss6.ogg'
-
-	speech_chance = 100
-
-	breath_type = null
-	poison_type = null
-
-	vision_flags = SEE_SELF|SEE_MOBS
-
-/datum/species/xenos/tyranids/handle_post_spawn(var/mob/living/carbon/human/H)
+	
+/datum/species/xenos/tyranid/handle_post_spawn(var/mob/living/carbon/human/H)
 	H.age = rand(min_age,max_age)//Random age for nidders
-	if(H.f_style)//nids dont get beards
+	if(H.f_style)//Only newly infected cultists get beards
 		H.f_style = "Shaved"
-	to_chat(H, "<big><span class='warning'>I must feed... I must sync with the hive mind (Do so in Tyranid tab)</span></big>")
+	to_chat(H, "<big><span class='warning'>THE DAY OF RECKONING HAS COME! I AWAKEN!(Select your class in genestealer tab)</span></big>")
 	H.update_eyes()	//hacky fix, i don't care and i'll never ever care
 	return ..()
 
@@ -106,8 +88,8 @@
 //Begin abilities
 
 /mob/living/carbon/human/genestealer/verb/convert()
-	set name = "Convert"
-	set desc = "Depending on your evolution progress, you must either be standing over them or next to the target."
+	set name = "Genestealer Kiss"
+	set desc = "You extend your tongue and pierce your victim with it."
 	set category = "Tyranid"
 
 	var/obj/item/grab/G = src.get_active_hand()
@@ -120,20 +102,12 @@
 		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
 		return
 
-	if(HUSK in T.mutations) //Eating husks would be kinda strange, but idk
-		to_chat(src, "<span class='warning'>This creature's DNA is ruined beyond useability!</span>")
-		return
-
 	if(isconverting)
-		to_chat(src, "<span class='warning'>We are already converting [T]!</span>")
+		to_chat(src, "<span class='warning'>We are already kissing [T]!</span>")
 		return
 	if(T.faction == "Tyranids")
-		to_chat(src, "<span class='warning'>[T] is already a member of the Hive Mind!</span>")
+		to_chat(src, "<span class='warning'>[T] is already implanted!</span>")
 		return
-
-	var/obj/item/organ/external/affecting = T.get_organ(src.zone_sel.selecting)
-	if(!affecting)
-		to_chat(src, "<span class='warning'>They are missing that body part!</span>") //Dont try and eat a limb that doesn't exist.
 
 	isconverting = 1
 
@@ -153,13 +127,12 @@
 				playsound(src, 'sound/effects/lecrunch.ogg', 50, 0, -1)
 
 		if(!do_mob(src, T, 50))
-			to_chat(src, "<span class='warning'>Our conversion of [T] has been interrupted!</span>")
+			to_chat(src, "<span class='warning'>Our implantation of [T] has been interrupted!</span>")
 			isconverting = 0
 			return
 
-	to_chat(src, "<span class='notice'>We have converted [T]!</span>")
-	src.visible_message("<span class='danger'>[src] completes overwriting [T]'s DNA!</span>")
-	to_chat(T, "<span class='danger'>You have been converted to the Tyranid Hive Mind! Obey your new masters, communicate with the hive using ,h</span>")
+	to_chat(src, "<span class='notice'>We have implanted [T]!</span>")
+	to_chat(T, "<span class='danger'>You have been implanted by a genestealer and now feel incredibly confused and dizzy, you can't exactly remember what happened, you probably got out before they infected you, right? </span>")
 
 	isconverting = 0
 
@@ -172,11 +145,12 @@
 	src.AddInfectionImages()//likely redundant but sometimes they don't show so better to make it check twice on both parties.
 	T.add_language(LANGUAGE_TYRANID)
 	src.dnastore++
-	T.adjustOxyLoss(-1)
+	T.adjustOxyLoss(-2)
 	T.adjustBruteLoss(-1)
 	T.adjustToxLoss(-1)
 	T.adjustBrainLoss(-1)
-	T.inject_blood(src, 50)
+	T.inject_blood(src, 500)
+	T.Weaken(30)
 	return 1
 
 /mob/living/carbon/human/genestealer/proc/ripperswarm() // ok
@@ -344,3 +318,100 @@
 		if(do_after(user, 110, src))
 			qdel(src)
 
+
+
+
+
+
+/datum/species/xenos/tyranids/
+	name = SPECIES_TYRANID
+	name_plural = "Tyranids"
+	name_language = null // Use the first-name last-name generator rather than a language scrambler
+	icobase = 'icons/mob/human_races/tyranids/r_tyranid.dmi'
+	deform = 'icons/mob/human_races/tyranids/r_def_tyranid.dmi'
+	damage_mask = 'icons/mob/human_races/masks/dam_mask_human.dmi'
+	blood_mask = 'icons/mob/human_races/masks/blood_human.dmi'
+	language = LANGUAGE_TYRANID
+	min_age = 1
+	max_age = 100
+	gluttonous = GLUT_ITEM_NORMAL
+	total_health = 250
+	mob_size = MOB_MEDIUM
+	strength = STR_HIGH
+	teeth_type = /obj/item/stack/teeth/human //til I get cool nid teeth
+	sexybits_location = BP_GROIN
+	var/pain_power = 0
+	inherent_verbs = list(
+	/mob/living/carbon/human/genestealer/verb/convert,
+	/mob/living/carbon/human/genestealer/proc/talon,
+	/mob/living/carbon/human/genestealer/proc/makepool,
+	/mob/living/carbon/human/genestealer/proc/corrosive_acid,
+	/mob/living/carbon/human/genestealer/proc/gsheal,
+	/mob/living/carbon/human/genestealer/proc/givestealerstats,
+
+	 )
+	slowdown = -0.5
+	unarmed_types = list(
+		/datum/unarmed_attack/rendingclaws,
+		/datum/unarmed_attack/rendingclaws,
+		)
+
+	has_fine_manipulation = 1
+	siemens_coefficient = 0
+	gluttonous = GLUT_ANYTHING
+	stomach_capacity = MOB_MEDIUM
+	darksight = 16
+
+	brute_mod = 0.9 // Hardened carapace.
+	burn_mod = 2 // Hardened carapace.
+
+
+
+
+
+//Nid specific verbs
+/datum/unarmed_attack/rendingclaws/genestealer 
+	attack_verb = list("rends")
+	attack_noun = list("claw")
+	eye_attack_text = "blades"
+	eye_attack_text_victim = "daggers"
+	damage = 95
+	sharp = 1
+	edge = 1
+	attack_sound = 'sound/effects/nidslash.ogg'
+
+
+/datum/unarmed_attack/rendingclaws/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
+	var/obj/item/organ/external/affecting = target.get_organ(zone)
+	var/organ = affecting.name
+
+	if(target == user)
+		user.visible_message("<span class='danger'>[user] [pick(attack_verb)] \himself in the [organ]!</span>")
+		return 0
+
+	if(!target.lying)
+		switch(zone)
+			if(BP_HEAD, BP_MOUTH, BP_EYES)
+				// ----- HEAD ----- //
+				switch(attack_damage)
+					if(35 to 40)
+						user.visible_message("<span class='danger'>[user] gouged [target] across \his cheek!</span>")
+					if(41 to 49)
+						user.visible_message(pick(
+							80; "<span class='danger'>[user] [pick(attack_verb)] [target]'s head!</span>",
+							20; "<span class='danger'>[user] struck [target] in the head[pick("",)]!</span>",
+							50; "<span class='danger'>[user] slashed a claw against [target]'s head!</span>"
+							))
+					if(50 to 55)
+						user.visible_message(pick(
+							10; "<span class='danger'>[user] maims [target]'s face!</span>",
+							90; "<span class='danger'>[user] smashed \his [pick(attack_noun)] into [target]'s [pick("[organ]", "face", "jaw")]!</span>"
+							))
+			else
+				// ----- BODY ----- //
+				switch(attack_damage)
+					if(35 to 40)	user.visible_message("<span class='danger'>[user] threw a glancing slash at [target]'s [organ]!</span>")
+					if(41 to 49)	user.visible_message("<span class='danger'>[user] [pick(attack_verb)] [target]'s [organ]!</span>")
+					if(50 to 55)	user.visible_message("<span class='danger'>[user] tears apart [target]'s [organ]!</span>")
+	else
+		user.visible_message("<span class='danger'>[user] [pick("slashed", "flailed a claw at", "scythed", "impaled their [pick(attack_noun)] into")] [target]'s [organ]!</span>") //why do we have a separate set of verbs for lying targets?
