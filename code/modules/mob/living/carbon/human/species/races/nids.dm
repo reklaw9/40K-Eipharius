@@ -58,20 +58,25 @@
 	gender = MALE
 	alien_talk_understand = 1
 
-
-/mob/living/carbon/human/genestealer/New(var/new_loc)
+/datum/species/xenos/tyranid/genestealer/New(var/new_loc)
 	h_style = "Bald"
 	..(new_loc, new_nid)
-
-/mob/living/carbon/human/genestealer/Initialize()
+	
+	
+/datum/species/xenos/tyranid/Initialize()
 	. = ..()
 	fully_replace_character_name(random_nid_name(src.gender))
 	warfare_faction = TYRANIDS
 	var/decl/hierarchy/outfit/outfit = outfit_by_type(/decl/hierarchy/outfit/job/genestealer)
 	outfit.equip(src)
 	isburied = 1
-	faction = "Tyranids" //keeps the homies safe from npc friends
-	mind.special_role = "Tyranid" //For hud icons
+	T.faction = "Tyranids"
+	T.mind.special_role = "Tyranid"
+	T.gsc = 1
+	src.gsc = 1
+	src.mind.special_role = "Tyranid"
+	T.AddInfectionImages()
+	src.AddInfectionImages()//likely redundant but sometimes they don't show so better to make it check twice on both parties.
 	AddInfectionImages()
 	thirst = INFINITY
 	nutrition = INFINITY
@@ -116,23 +121,23 @@
 			if(1)
 				to_chat(src, "<span class='notice'>This creature is suitable for the hive...</span>")
 			if(2)
-				to_chat(src, "<span class='notice'>[src] begins to open their jaw</span>")
-				src.visible_message("<span class='warning'>[src] widens their jaw!</span>")
+				to_chat(src, "<span class='notice'>[src] begins to open their jaw and extend their tongue</span>")
+				src.visible_message("<span class='warning'>[src] opens their jaw and extends their tongue!</span>")
 			if(3)
 				to_chat(src, "<span class='notice'>[T] is impaled by your forked tongue</span>")
 				src.visible_message("<span class='danger'>[src] impales [T] with their tongue.</span>")
 				to_chat(T, "<span class='danger'>You feel a sharp stabbing pain!</span>")
-				affecting.take_damage(9, 0, DAM_SHARP, "large organic needle")
+				affecting.take_damage(1, 0, DAM_SHARP, "large organic needle")
 				src.biomass -=10
 				playsound(src, 'sound/effects/lecrunch.ogg', 50, 0, -1)
 
-		if(!do_mob(src, T, 50))
+		if(!do_mob(src, T, 10))
 			to_chat(src, "<span class='warning'>Our implantation of [T] has been interrupted!</span>")
 			isconverting = 0
 			return
 
 	to_chat(src, "<span class='notice'>We have implanted [T]!</span>")
-	to_chat(T, "<span class='danger'>You have been implanted by a genestealer and now feel incredibly confused and dizzy, you can't exactly remember what happened, you probably got out before they infected you, right? </span>")
+	to_chat(T, "<span class='danger'>You have been attacked by a genestealer and now feel incredibly confused and dizzy, you can't exactly remember what happened, you probably got out before they infected you, right? </span>")
 
 	isconverting = 0
 
@@ -238,13 +243,13 @@
 	visible_message("[name] listens intently to the will of the hive mind. Now is the time! The fleet is near! Communicate with your hive using ,h")
 	src.AddInfectionImages()
 	src.add_stats(rand(10,15),rand(17,18),rand(13,13),18) //gives stats str, end, int, dex
-	src.add_skills(rand(10,15),rand(7,7),rand(1,4),rand(1,4),rand(1,4)) //skills such as melee, ranged, med, eng and surg)
+	src.add_skills(11,1,7,1,7)) //skills such as melee, ranged, med, eng and surg)
 	src.adjustStaminaLoss(-INFINITY)
 	src.update_eyes() //should fix grey vision
 	src.set_trait(new/datum/trait/death_tolerant())
 	client?.color = null
-	src.health = 450
-	src.maxHealth = 450
+	src.health = 400 //brainhealth
+	src.maxHealth = 400 //brainhealth
 	src.warfare_language_shit(LANGUAGE_TYRANID)
 	src.verbs -= /mob/living/carbon/human/genestealer/proc/givestealerstats //removes verb at the end so they can't spam it for whatever reason
 
@@ -265,7 +270,7 @@
 		adjustToxLoss(-1)
 		adjustBrainLoss(-1)
 		src.radiation = 0
-		src.bodytemperature = T20C
+		src.bodytemperature = T36C
 		src.eye_blurry = 0
 		src.ear_deaf = 0
 		src.ear_damage = 0
@@ -273,40 +278,70 @@
 		src.biomass -=10
 
 /mob/living/carbon/human/genestealer/proc/talon()
-	set name = "Unsheathe Stun Talon (0)"		
+	set name = "Prepare Nonlethal Blows(0)"		
 	set category = "Tyranid"		
-	set desc = "You"		
-
-
+	set desc = "You ready your talons for a painful blow instead of a lethal one."		
 	put_in_hands(new /obj/item/melee/baton/nidstun)		
 	src.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)		
 	return
 
 
 /mob/living/carbon/human/genestealer/proc/injector()
-	set name = "Unsheathe Bio Injector (0)"		
+	set name = "Prepare Bio Injector(5)"		
 	set category = "Tyranid"		
-	set desc = "Gives you a 5u chloral hydrate biological injector"		
-
-
+	set desc = "Gives you a 5u chloral hydrate biological injector"	
+	src.biomass -=5
 	put_in_hands(new /obj/item/melee/baton/nidstun)		
 	src.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)		
 	return
+	
+	
 //Begin nid items
 /obj/item/reagent_containers/hypospray/autoinjector/tyranidchloralhydrate
 	name = "Biological Injector"
-	desc = "A poisonous concoction inside of a hollowed out chitin shell with a needle, contains some sleepy sleepy drugs."
-	icon_state = "blue"
-	item_state = "autoinjector"
+	desc = "A poisonous concoction inside of a hollowed out chitin shell with a needle made out of bone, contains some sleepy sleepy drugs."
+	icon = 'icons/obj/weapons/melee/misc.dmi'
+	icon_state = "catachanfang"
+	item_state = "catachanfang"
+	color = "#292929"
 	amount_per_transfer_from_this = 5
 	volume = 5
-	origin_tech = list(TECH_MATERIAL = 2, TECH_BIO = 2)
-	var/list/starts_with = list(/datum/reagent/inaprovaline = 5)
+	origin_tech = list(TECH_BIO = 8) //i don't know how you did it, but if you managed to, you deserve this
+	starts_with = list(/datum/reagent/chloralhydrate = 5)
+	
+/obj/item/reagent_containers/hypospray/autoinjector/tyranidchloralhydrate/dropped() //since nodrop is fucked this will deal with it for now.
+	..()
+	spawn(1) if(src) qdel(src)
 
+/obj/item/melee/baton/nidstun
+	name = "Venomous Talon"
+	desc = "This talon is prepared to strike nonlethal pincing attacks to try and slow a enemy down, possibly even knocking them out."
+	icon = 'icons/obj/weapons/melee/misc.dmi'
+	icon_state = "catachanfang"
+	item_state = "catachanfang"
+	color = "#292929"
+	slot_flags = SLOT_BELT|SLOT_BACK|SLOT_S_STORE
+	str_requirement = 10
+	force = 5
+	agonyforce = 90 //don't make this too high or it may kill people
+	status = 1
+	block_chance = 60
+	sales_price = 0
+	weapon_speed_delay = 5
+	sharp = TRUE
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
+	w_class = ITEM_SIZE_SMALL
+	atom_flags = ATOM_FLAG_NO_BLOOD
+	attack_verb = list("stabbed", "jabbed", "infested")
+	armor_penetration = 90 //Genestealer magic.
 
+/obj/item/melee/baton/nidstun/dropped() //since nodrop is fucked this will deal with it for now.
+	..()
+	spawn(1) if(src) qdel(src)
+	
 /obj/structure/spawningpool
 	name = "spawning pool"
-	desc = "A gelatinous mass of writing DNA and acid. It seems somehow alive. "
+	desc = "A pulsating mass of writing blood and acid, its eager for biological contributions, maybe you should throw yourself into it-- wait who said that?"
 	icon = 'icons/mob/human_races/tyranids/tyranids.dmi'
 	icon_state = "reclaimer"
 	anchored = 1
@@ -316,8 +351,7 @@
 	bound_width = 32
 
 /obj/structure/spawningpool/attack_hand(mob/living/carbon/human/genestealer/user as mob)
-	if(user.dnastore < 1)
-		to_chat(user, "<font color='#800080'>I do not have any DNA to contribute to the pool...</font>")
+	if(user.dnastore < 1) //no DNA = nothing happens
 		return
 	else
 		user.dnastore--
