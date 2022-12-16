@@ -1438,7 +1438,7 @@
 		messageTimer++
 		return
 
-	if(species.name == "Tyranids") //Simple way to species check
+	if(species.name == "Genestealers") //Simple way to species check
 		shock_stage = 0
 
 		heal_organ_damage(0.4, 0.4)
