@@ -291,7 +291,10 @@
 #define SPECIES_BLOODPACT "Bloodpact"
 #define SPECIES_SKITARII "Skitarii"
 #define SPECIES_ASTARTES "Astartes"
-#define SPECIES_GENESTEALER "Genestealers"
+#define SPECIES_GENESTEALER "Genestealers" 
+#define SPECIES_GEN1TYRANID "Maelignaci" 
+#define SPECIES_GEN2TYRANID "Hybrid" 
+#define SPECIES_GEN3TYRANID "True Hybrid" 
 #define SPECIES_OGRYN "Ogryn"
 #define SPECIES_RAT "Skaven"
 
