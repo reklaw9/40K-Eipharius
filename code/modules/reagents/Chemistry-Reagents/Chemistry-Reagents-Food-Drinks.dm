@@ -1587,13 +1587,13 @@
 	glass_desc = "Tequilla and recaf liquor, brought together in a mouthwatering mixture. Drink up."
 
 /datum/reagent/ethanol/changelingsting
-	name = "Genestealer Sting"
+	name = "Xeno's Sting"
 	description = "You take a tiny sip and feel a burning sensation..."
 	taste_description = "your brain coming out your nose"
 	color = "#2e6671"
 	strength = 10
 
-	glass_name = "Genestealer Sting"
+	glass_name = "Xeno's Sting"
 	glass_desc = "A stingy drink."
 
 /datum/reagent/ethanol/martini
