@@ -1,12 +1,12 @@
 
 
 // for nids
-/mob/living/carbon/human/genestealer/say_understands(var/other)
-	if (istype(other, /mob/living/carbon/human/genestealer))
+/datum/species/xenos/tyranid/say_understands(var/other)
+	if (istype(other, /datum/species/xenos/tyranid))
 		return 1
 	return ..()
 
-/mob/living/carbon/human/genestealer/say(var/message)
+/datum/species/xenos/tyranid/say(var/message)
 
 	if (silent)
 		return
@@ -26,7 +26,7 @@
 	else
 
 // ~lol~
-/mob/living/carbon/human/genestealer/say_quote(var/text)
+/datum/species/xenos/tyranidsay_quote(var/text)
 //	var/ending = copytext(text, length(text))
 
 	return "[say_message], \"[text]\"";
@@ -55,7 +55,7 @@
 
 	var/list/heard = list()
 	for (var/mob/M in listening)
-		if(!istype(M, /mob/living/carbon/human/genestealer)
+		if(!istype(M, /datum/species/xenos/tyranid)
 			heard += M
 
 
