@@ -291,7 +291,7 @@
 #define SPECIES_BLOODPACT "Bloodpact"
 #define SPECIES_SKITARII "Skitarii"
 #define SPECIES_ASTARTES "Astartes"
-#define SPECIES_TYRANID "Tyranids"
+#define SPECIES_GENESTEALER "Genestealers"
 #define SPECIES_OGRYN "Ogryn"
 #define SPECIES_RAT "Skaven"
 
