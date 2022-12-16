@@ -1,7 +1,7 @@
 //Normal Genestealer
 /datum/species/xenos/tyranid/genestealer
-	name = SPECIES_TYRANID
-	name_plural = "Tyranids"
+	name = SPECIES_GENESTEALER
+	name_plural = "Genestealers"
 	name_language = null // Use the first-name last-name generator rather than a language scrambler
 	icobase = 'icons/mob/human_races/tyranids/r_tyranid.dmi'
 	deform = 'icons/mob/human_races/tyranids/r_def_tyranid.dmi'
@@ -369,12 +369,11 @@
 			qdel(src)
 
 
+//planned
+/*
 
-
-
-
-/datum/species/xenos/tyranids/
-	name = SPECIES_TYRANID
+/datum/species/xenos/tyranids/Maelignaci
+	name = SPECIES_GEN1TYRANID
 	name_plural = "Tyranids"
 	name_language = null // Use the first-name last-name generator rather than a language scrambler
 	icobase = 'icons/mob/human_races/tyranids/r_tyranid.dmi'
@@ -414,7 +413,7 @@
 
 	brute_mod = 0.9 // Hardened carapace.
 	burn_mod = 2 // Hardened carapace.
-
+*/
 
 
 
