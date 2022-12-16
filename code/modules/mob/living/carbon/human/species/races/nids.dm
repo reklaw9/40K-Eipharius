@@ -145,12 +145,13 @@
 	src.AddInfectionImages()//likely redundant but sometimes they don't show so better to make it check twice on both parties.
 	T.add_language(LANGUAGE_TYRANID)
 	src.dnastore++
+	H.confused++
+	H.drowsyness++
 	T.adjustOxyLoss(-2)
 	T.adjustBruteLoss(-1)
 	T.adjustToxLoss(-1)
 	T.adjustBrainLoss(-1)
 	T.inject_blood(src, 500)
-	T.Weaken(30)
 	return 1
 
 /mob/living/carbon/human/genestealer/proc/ripperswarm() // ok
@@ -158,28 +159,22 @@
 	set desc = "Distract them!"
 	set category = "Tyranid"
 
-	if(src.biomass < 20)
+	if(src.biomass < 10)
 		to_chat(src, "<font color='#800080'>You don't have enough biomass!</font>")
 		return
 	else
 		new /mob/living/simple_animal/hostile/rippers(src.loc) //Rippers in the codex are 9 models per unit
 		new /mob/living/simple_animal/hostile/rippers(src.loc)
 		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		new /mob/living/simple_animal/hostile/rippers(src.loc)
-		src.biomass -= 20
+		src.biomass -= 10
 		visible_message("<span class='warning'>Numerous rippers burst from the ground and immediately begin to swarm!</span>")
 
 /mob/living/carbon/human/genestealer/proc/neurotoxin(mob/target as mob in oview())
-	set name = "Spit Neurotoxin (10)"
+	set name = "Spit Neurotoxin (5)"
 	set desc = "Spits neurotoxin at someone, paralyzing them for a short time if they are not wearing protective gear."
 	set category = "Tyranid"
 
-	if(src.biomass < 20)
+	if(src.biomass < 5)
 		to_chat(src, "<font color='#800080'>You don't have enough biomass!</font>")
 		return
 
@@ -191,7 +186,7 @@
 
 	var/obj/item/projectile/energy/neurotoxin/A = new /obj/item/projectile/energy/neurotoxin(usr.loc)
 	A.launch_projectile(target,get_organ_target())
-	src.biomass -=10
+	src.biomass -=5
 
 /mob/living/carbon/human/genestealer/proc/makepool(mob/target as mob in oview())
 	set name = "Create Spawning Pool"
@@ -211,7 +206,7 @@
 	src.mind.special_role = "Tyranid"
 	src.gsc = 1
 	src.AddInfectionImages()
-
+/* //they don't have acid???
 /mob/living/carbon/human/genestealer/proc/corrosive_acid(O as obj|turf in oview(1)) //If they right click to corrode, an error will flash if its an invalid target./N
 	set name = "Corrosive Acid (5)"
 	set desc = "Drench an object in acid, destroying it over time."
@@ -229,7 +224,7 @@
 		visible_message("<span class='alium'><B>[src] vomits globs of vile stuff all over [O]. It begins to sizzle and melt under the bubbling mess of acid!</B></span>")
 		src.biomass -=5
 		return
-
+*/
 
 /mob/living/carbon/human/genestealer/proc/givestealerstats()
 	set name = "Sync with the Hive Mind"
@@ -274,19 +269,40 @@
 		src.eye_blurry = 0
 		src.ear_deaf = 0
 		src.ear_damage = 0
-		src.inject_blood(src, 50)
+		src.inject_blood(src, 500)
 		src.biomass -=10
 
 /mob/living/carbon/human/genestealer/proc/talon()
-	set name = "Unsheathe Venomous Talon (0)"
-	set category = "Tyranid"
-	set desc = "Gives their stun talon"
+	set name = "Unsheathe Stun Talon (0)"		
+	set category = "Tyranid"		
+	set desc = "You"		
 
-	put_in_hands(new /obj/item/melee/baton/nidstun)
-	src.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
+
+	put_in_hands(new /obj/item/melee/baton/nidstun)		
+	src.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)		
 	return
 
+
+/mob/living/carbon/human/genestealer/proc/injector()
+	set name = "Unsheathe Bio Injector (0)"		
+	set category = "Tyranid"		
+	set desc = "Gives you a 5u chloral hydrate biological injector"		
+
+
+	put_in_hands(new /obj/item/melee/baton/nidstun)		
+	src.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)		
+	return
 //Begin nid items
+/obj/item/reagent_containers/hypospray/autoinjector/tyranidchloralhydrate
+	name = "Biological Injector"
+	desc = "A poisonous concoction inside of a hollowed out chitin shell with a needle, contains some sleepy sleepy drugs."
+	icon_state = "blue"
+	item_state = "autoinjector"
+	amount_per_transfer_from_this = 5
+	volume = 5
+	origin_tech = list(TECH_MATERIAL = 2, TECH_BIO = 2)
+	var/list/starts_with = list(/datum/reagent/inaprovaline = 5)
+
 
 /obj/structure/spawningpool
 	name = "spawning pool"
