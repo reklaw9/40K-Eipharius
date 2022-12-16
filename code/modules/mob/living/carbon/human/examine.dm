@@ -66,7 +66,7 @@
 	msg += "<br>"
 
 	if(isChild())
-		msg += "<b>[T.He] is but a child!</b>\n"
+		msg += "<b>[T.He] is just a child.</b>\n"
 
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
@@ -339,9 +339,9 @@
 	if(skinned == 1)
 		msg += "[T.He] [T.is] mangled, someone or something has torn the skin from their corpse!\n"
 	if(user.mind.special_role == "Nurgle Cultist" || user.mind.special_role == "Khorne Cultist" || user.mind.special_role == "Slaanesh Cultist" || user.mind.special_role == "Tzeentch Cultist")
-		msg += "<span class='warning'>[T.He] [T.is] similar to you somehow but you can't quite figure out how...\n</span>"
+		msg += "<span class='warning'>You feel some kind of otherwordly connection to them.\n</span>"
 	if(warfare_faction == TYRANIDS)
-		msg += "A horrifying xeno!\n"
+		msg += "A horrifying monster!\n"
 
 
 	if(hasHUD(user,"security"))
