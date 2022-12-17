@@ -294,7 +294,7 @@
 #define SPECIES_GENESTEALER "Genestealers" 
 #define SPECIES_GEN1TYRANID "Maelignaci" 
 #define SPECIES_GEN2TYRANID "Hybrid" 
-#define SPECIES_GEN3&4TYRANID "True Hybrid" 
+#define SPECIES_GEN3AND4TYRANID "True Hybrid" 
 #define SPECIES_OGRYN "Ogryn"
 #define SPECIES_RAT "Skaven"
 
