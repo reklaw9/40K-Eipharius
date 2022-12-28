@@ -9,7 +9,7 @@
 	var/list/possible_blessings 	// Contains both blessings and curses for simplicity sake.
 	var/list/rune_recipes			// Runes that this cultist type can use
 	var/list/members = list()
-	var/join_message = "Debug Message."
+	var/join_message = "<span class = 'badmood'> * You have successfully started as a Chaos Cultist. Rebel with your fellow cultists in a civil war! * </span> "
 	var/status_icon_state			// Displayed for fellow cultists.
 	var/inherent_verbs				// List of verbs to be added when a cultist joins.
 	var/faction						// Used for mobs
@@ -102,4 +102,11 @@ Most blessings and curses should be permanent.
 		return
 	var/choice = input(user, "Become [name] cultist?", "Choice") in list("Yes", "No")
 	if(choice == "Yes")
+		add_cultist(user)
+
+/datum/heretic_deity/proc/join_forced(var/mob/living/carbon/human/user)
+	if(GODBYPLAYER(user))
+		return
+	var/choice = input(user, "You now serve [name]!", "Choice") in list("Praise the God!")
+	if(choice == "Praise the God!")
 		add_cultist(user)
