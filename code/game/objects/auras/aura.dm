@@ -167,17 +167,25 @@ They should also be used for when you want to effect the ENTIRE mob, like having
 	organheal = 10
 
 /obj/aura/regenerating/human/ork
-	brute_mult = 3
-	fire_mult = 5
+	brute_mult = 5 //orks are good at healing them funny wounds
+	fire_mult = 3 //orks are really bad at regenerating burns
 	tox_mult = 2
-
+	nutrition_damage_mult = 0 //How much nutrition it takes to heal regular damage
 
 /obj/aura/regenerating/human/nid
 	can_regenerate_organs = TRUE
 	brute_mult = 10
 	fire_mult = 4
-	tox_mult = 2 //confirms your kills or they will get back up eventually.
+	tox_mult = 2 //confirm your kills or they will get back up eventually.
 	organheal = 3
+	
+/obj/aura/regenerating/human/kroot
+	can_regenerate_organs = TRUE
+	brute_mult = 4 //better at healing bute wounds
+	fire_mult = 2
+	tox_mult = 1 //kroot gets shitty healing when compared to other xenos but still heals
+	organheal = 1
+	nutrition_damage_mult = 2 //kroot are hungry boys.
 
 /obj/aura/regenerating/human/ultimate
 	//var/regen_message = "<span class='warning'>Your body throbs as you feel your body regenerates.</span>"
