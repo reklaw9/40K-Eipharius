@@ -8,12 +8,17 @@
 	deform = 'icons/mob/human_races/r_def_kroot.dmi'
 	damage_mask = 'icons/mob/human_races/masks/dam_mask_human.dmi'
 	blood_mask = 'icons/mob/human_races/masks/blood_human.dmi'
-	min_age = 50
-	max_age = 800
+	min_age = 12 //12 is adult age for kroot.
+	max_age = 150 //while uncommon, its possible for a kroot to live over 100 years
 	gluttonous = GLUT_ANYTHING
 	total_health = 250
-	mob_size = MOB_MEDIUM
-	strength = STR_MEDIUM
+	mob_size = MOB_LARGE //half a meter taller than humans = heavier
+	strength = STR_HIGH //they aint pansy humans
+	slowdown = -0.5 //Quicker than humans
+	base_auras = list(
+		/obj/aura/regenerating/human/kroot
+		)
+	brute_mod = 0.82 // They are tougher than humans.
 	sexybits_location = BP_GROIN
 	inherent_verbs = list(
 	/mob/living/carbon/human/kroot/proc/givekrootstats,
@@ -29,9 +34,10 @@
 	H.age = rand(min_age,max_age)//Random age for kiddos.
 	if(H.f_style)//kroot don't get beards.
 		H.f_style = "Shaved"
-	to_chat(H, "<big><span class='warning'>Your a mercenary hired by the Tau. Obey whatever instructions they have, if you cannot communicate with any Tau immediately, then prepare a frontal base..</span></big>")
+	to_chat(H, "<big><span class='warning'>You are a mercenary of the kroot species, remember, do not eat TAU or Genestealers, or you will end up as nothing more than a dead body.</span></big>")
 	H.update_eyes()	//hacky fix, i don't care and i'll never ever care
 	return ..()
+	
 /mob/living/carbon/human
 	var/new_kroot = SPECIES_KROOT
 
@@ -70,12 +76,12 @@
 		return
 
 	visible_message("[name] stretches their muscles after a long flight, feeling their strength and skill return to them.")
-	src.add_stats(rand(14,16),rand(14,18),rand(12,15),10)
-	src.add_skills(10,10,rand(0,3),0,0) //skills such as melee, ranged, med, eng and surg
+	src.add_stats(rand(18,19),rand(17,19),rand(15,18),8) //not very smart, but pretty capable in exchange for their shitty armor
+	src.add_skills(rand(8,11),rand(8,11),rand(5,7),7,2) //skills such as melee, ranged, med, eng and surg //kroot have genetical information of engineering due to eating orks for too long
 	src.adjustStaminaLoss(-INFINITY)
 	src.update_eyes() //should fix grey vision
 	src.warfare_language_shit(TAU) //secondary language
-	src.verbs -= /mob/living/carbon/human/kroot/proc/givekrootstats //removes verb at the end so they can't spam it for whatever reason
+	src.verbs -= /mob/living/carbon/human/kroot/proc/givekrootstats //removes verb at the end so they can't spam it
 	client?.color = null
 
 	var/obj/item/card/id/dog_tag/kroot/W = new
@@ -101,8 +107,8 @@
 		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
 		return
 
-	if(HUSK in T.mutations) //Eating husks would be kinda strange, but idk
-		to_chat(src, "<span class='warning'>This creature's DNA is ruined beyond useability!</span>")
+	if(species = (SPECIES_TYRANID))
+		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
 		return
 
 	if(iseating)
@@ -153,7 +159,7 @@
 	src.nutrition = 400
 	src.thirst = 550
 	src.radiation = 0
-	src.bodytemperature = T20C
+	src.bodytemperature = T36C
 	src.sdisabilities = 0
 	src.disabilities = 0
 	src.blinded = 0
@@ -161,5 +167,6 @@
 	src.eye_blurry = 0
 	src.ear_deaf = 0
 	src.ear_damage = 0
+	src.inject_blood(src, 560)
 	GLOB.kroot_eats++
 	return 1
