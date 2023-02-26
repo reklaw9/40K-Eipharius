@@ -107,8 +107,8 @@
 		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
 		return
 
-	if(T.species == (SPECIES_TYRANID))
-		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
+	if(T.faction == "Tyranids") //may be shitty but its more lore accurate + works
+		to_chat(src, "<span class='warning'>[T] is tainted with the DNA of monsters!</span>")
 		return
 
 	if(iseating)
