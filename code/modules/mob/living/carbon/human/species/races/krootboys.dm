@@ -107,7 +107,7 @@
 		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
 		return
 
-	if(species = (SPECIES_TYRANID))
+	if(T.species == (SPECIES_TYRANID))
 		to_chat(src, "<span class='warning'>[T] is not compatible with our biology.</span>")
 		return
 
@@ -159,7 +159,6 @@
 	src.nutrition = 400
 	src.thirst = 550
 	src.radiation = 0
-	src.bodytemperature = T36C
 	src.sdisabilities = 0
 	src.disabilities = 0
 	src.blinded = 0
