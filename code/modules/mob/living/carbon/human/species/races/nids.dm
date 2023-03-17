@@ -58,6 +58,75 @@
 
 	vision_flags = SEE_SELF|SEE_MOBS
 
+	has_organ = list(    // which required-organ checks are conducted.
+		BP_HEART =    /obj/item/organ/internal/heart,
+		BP_LUNGS =    /obj/item/organ/internal/lungs,
+		BP_LIVER =    /obj/item/organ/internal/liver,
+		BP_KIDNEYS =  /obj/item/organ/internal/kidneys,
+		BP_BRAIN =    /obj/item/organ/internal/brain,
+		BP_EYES =     /obj/item/organ/internal/eyes
+		)
+		vision_organ = BP_BRAIN
+	has_limbs = list(
+		BP_CHEST =  list("path" = /obj/item/organ/external/chest/nid),
+		BP_GROIN =  list("path" = /obj/item/organ/external/groin/nid),
+		BP_HEAD =   list("path" = /obj/item/organ/external/head/nid),
+		BP_L_ARM =  list("path" = /obj/item/organ/external/arm/nid),
+		BP_R_ARM =  list("path" = /obj/item/organ/external/arm/right/nid),
+		BP_L_LEG =  list("path" = /obj/item/organ/external/leg/nid),
+		BP_R_LEG =  list("path" = /obj/item/organ/external/leg/right/nid),
+		BP_L_HAND = list("path" = /obj/item/organ/external/hand/nid),
+		BP_R_HAND = list("path" = /obj/item/organ/external/hand/right/nid),
+		BP_L_FOOT = list("path" = /obj/item/organ/external/foot/nid),
+		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right/nid)
+		)
+
+/obj/item/organ/external/chest/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/groin/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/head/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/arm/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/arm/right/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/leg/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/leg/right/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/foot/right/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/organ/external/foot/nid
+	arterial_bleed_severity = 0    // Nids dont have IB, and probably dont bleed.
+	cannot_break = 1                   // Nids never get their bones fixed, better to JUST NOT let them break.
+	
+/obj/item/clothing/under/nid
+	name = "Nid Skin"
+	desc = "Sweaty, smelly and hard skin."
+	icon = 'icons/mob/32x40/uniforms.dmi'
+	item_icons = list(slot_w_uniform_str = 'icons/mob/32x40/uniforms.dmi')
+	icon_state = "gsfeet"
+	item_state = "gsfeet"
+	armor = list(melee = 10, bullet = 10, laser = 0,energy = 5, bomb = 25, bio = 100, rad = 100)
+	siemens_coefficient = 0.9
+
 /datum/species/xenos/tyranids/handle_post_spawn(var/mob/living/carbon/human/H)
 	H.age = rand(min_age,max_age)//Random age for nidders
 	if(H.f_style)//nids dont get beards
@@ -269,9 +338,10 @@
 	visible_message("[name] listens intently to the will of the hive mind. Now is the time! The fleet is near! Communicate with your hive using ,h")
 	src.AddInfectionImages()
 	src.add_stats(rand(17,18),rand(17,18),rand(13,13),18)
-	src.add_skills(rand(10,11),rand(1,1),rand(1,4),rand(1,4),rand(1,4)) //skills such as melee, ranged, med, eng and surg)
+	src.add_skills(rand(10,13),rand(1,1),rand(1,4),rand(1,4),rand(1,4)) //skills such as melee, ranged, med, eng and surg)
 	src.adjustStaminaLoss(-INFINITY)
 	src.update_eyes() //should fix grey vision
+	src.set_quirk(new/datum/quirk/brave())
 	src.set_trait(new/datum/trait/death_tolerant())
 	client?.color = null
 	src.health = 250
